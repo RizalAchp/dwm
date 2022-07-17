@@ -1,6 +1,7 @@
 ![dwm](./dwm.png)
 # My Fork DWM
 ### ScreenShots
+![dwm](./screenshot.png)
 
 ### original source: [dwm suckless](https://dwm.suckless.org/)
 
