@@ -1,0 +1,17 @@
+#!/bin/bash
+fileid= $1
+filename= $2
+
+curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}" > /dev/null
+curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`\
+    awk '/download/ {print $NF}' ./cookie`&id=${fileid}" -o ${filename}
+
+
+# wget --load-cookies /tmp/cookies.txt\
+#     "https://docs.google.com/uc?export=download&confirm=\
+#     $(wget --quiet --save-cookies /tmp/cookies.txt \
+#     --keep-session-cookies --no-check-certificate  \
+#     "https://docs.google.com/uc?export=download&id=${fileid}"\
+#     -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1_M8LAg0oATgm5zLoGS1XlKzTZba8Xnyf"\
+#     -O "${filename}" && rm -rf /tmp/cookies.txt
+

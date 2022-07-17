@@ -1,0 +1,13 @@
+#!/usr/bin/sh
+
+case $1 in
+	1) notify-send "🖥 CPU hogs" "$(ps axch -o cmd:15,%cpu --sort=-%cpu | head)" ;;
+	3) notify-send "🖥 CPU module " "\- Shows CPU temperature.
+- Click to show intensive processes.
+- % is of single core." ;;
+esac
+
+PERCENT=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
+TEMPERATURE=$(sensors | awk '/Core 0/ {print $3 } ')
+
+echo "$TEMPERATURE $PERCENT"

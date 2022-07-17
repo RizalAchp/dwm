@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+function run_dd(){
+    IN_FILE="$(realpath $1)"
+    OUT_FILE="$2"
+
+    dd if=${IN_FILE} | pv | sudo dd of=${OUT_FILE} bs=4M conv=fdatasync
+}
+
+if [[ ! -z "$1" ]] && [[ ! -z "$2" ]];
+then
+    if [[ -f "$1" ]];
+    then
+        run_dd
+    else
+        echo "file '$1' tidak tersedia!"
+    fi
+else
+    echo "need 2 arguments!"
+    echo "example : $0 fileinput fileout"
+fi

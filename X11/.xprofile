@@ -1,0 +1,21 @@
+#!/bin/sh
+
+
+export $(dbus-launch)
+# Map the caps lock key to super, and map the menu key to right super.
+setxkbmap -option caps:super &
+
+
+if [ -f "$HOME/.config/x11/xresources" ]; then
+    xrdb "$HOME/.config/x11/xresources" & xrdbpid=$!
+else
+    xrdb $HOME/.Xresources & xrdbpid=$!
+fi
+
+[ -n "$xrdbpid" ] && wait "$xrdbpid"
+
+lxpolkit &
+dbus-run-session &
+dwmblocks &
+
+feh --bg-fill ~/Pictures/Wallpaper/gruvbox.png &

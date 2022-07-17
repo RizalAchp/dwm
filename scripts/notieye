@@ -1,0 +1,3 @@
+#!/bin/bash
+
+notify-send.sh -i ~/.config/dunst/images/program.png "Health" "Look after your eyes!\n<br>Look at something at a distance of 20 feet for a while or take a break!"

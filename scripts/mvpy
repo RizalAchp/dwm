@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+import os
+from sys import argv
+import glob
+import shutil
+
+def main(ext:str):
+    fnames = glob.glob("*.{}".format(ext))
+    fnames.sort(key=lambda x: os.stat(x).st_ctime, reverse=True)
+    for i, fname in enumerate(fnames):
+        shutil.move(fname, f"0{i+1}.{ext}")
+
+
+if __name__ == "__main__":
+    if len(argv)>1:
+        inp = argv[1]
+        main(inp)
+    else:
+        raise SystemExit(f"[ERROR]: gunakan argument extention,\n\t\tcontoh : python {argv[0]} `png`")
+

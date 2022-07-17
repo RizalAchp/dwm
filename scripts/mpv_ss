@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -e
+# Description: Take screenshots from video file using mpv.
+script_name=$(basename "$0")
+ 
+num_of_screenshots=$1
+video_file=$2
+ 
+# Error handling.
+  usage_example="   e.g.: ${script_name} num_of_screenshot video_file"
+ 
+  is_number_regex='^[0-9]+$'
+  if ! [[ "${num_of_screenshots}" =~ ${is_number_regex} ]] ; then
+    echo "Error: ${num_of_screenshots} is not a number. Aborted!"
+    echo "${usage_example}"
+    exit 1;
+  fi
+ 
+  if [ ! -f "${video_file}" ]; then
+    echo "Error: ${video_file} is not file. Aborted!"
+    echo "${usage_example}"
+    exit 1;
+  fi
+ 
+# Take screenshots.
+  increment=$(perl -E "say 98/${num_of_screenshots}")
+  padding_size=$(echo -n "${num_of_screenshots}" | wc -m)
+ 
+  position=${increment}
+  for ((i=0; i < num_of_screenshots ; i++)); do
+    printf -v position_format "%0${padding_size}d" ${i}  # Zero padding.
+    output_file="${video_file}_${position_format}".ms.jpg
+    mpv "${video_file}" --no-terminal --no-audio --vo=image --start=${position}% --frames=1  -o "${output_file}"
+    echo "${output_file} created."
+ 
+    position=$(perl -E "say ${position} + ${increment}")
+  done

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+VARARGUMENT=$1
+
+function savencopy()
+{
+    DIRSS="$HOME/Pictures/Screenshots/tempss/$(date +%d_%H-%M-%S).png"
+    maim -s ${DIRSS} \
+        && xclip -selection clipboard -t image/png ${DIRSS} \
+        && notify-send "Screenshots" "Saved to ${DIRSS} and clipboard"
+}
+function justcopy()
+{
+    maim -s | xclip -selection clipboard -t image/png \
+        && notify-send "Screenshots""Copied to Clipboard" -i flameshot
+}
+
+if [ ! -z "$VARARGUMENT" ];
+then
+    savencopy
+else
+    justcopy
+fi
